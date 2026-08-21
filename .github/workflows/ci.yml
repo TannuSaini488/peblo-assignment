@@ -2,71 +2,72 @@ name: CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    
-    - name: Set up Python 3.12
-      uses: actions/setup-python@v4
-      with:
-        python-version: 3.12
-        
-    - name: Install dependencies
-      run: |
-        cd backend
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-        pip install pytest httpx
-        
-    - name: Run tests
-      run: |
-        cd backend
-        PYTHONPATH=. pytest tests/
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          cd backend
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest httpx
+
+      - name: Run tests
+        run: |
+          cd backend
+          PYTHONPATH=. pytest tests/
 
   lint:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: 18
-    
-    - name: Install CMS dependencies
-      run: |
-        cd cms
-        npm ci
-        
-    - name: Install Viewer dependencies
-      run: |
-        cd viewer
-        npm ci
-        
-    - name: Build CMS
-      run: |
-        cd cms
-        npm run build
+      - uses: actions/checkout@v4
 
-    - name: Build Viewer
-      run: |
-        cd viewer
-        npm run build
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install CMS dependencies
+        run: |
+          cd cms
+          npm ci
+
+      - name: Install Viewer dependencies
+        run: |
+          cd viewer
+          npm ci
+
+      - name: Build CMS
+        run: |
+          cd cms
+          npm run build
+
+      - name: Build Viewer
+        run: |
+          cd viewer
+          npm run build
 
   build-images:
     runs-on: ubuntu-latest
     needs: [test, lint]
     steps:
-    - uses: actions/checkout@v3
-    
-    - name: Build API Docker Image
-      run: docker build -t peblo-tv-mini-api ./backend
-      
-    # Example deployment step placeholder
-    # - name: Deploy to Cloudflare R2 / Render
-    #   run: ./scripts/deploy.sh
+      - uses: actions/checkout@v4
+
+      - name: Build API Docker Image
+        run: docker build -t peblo-tv-mini-api ./backend
+
+      # Example deployment step placeholder
+      # - name: Deploy to Cloudflare R2 / Render
+      #   run: ./scripts/deploy.sh
