@@ -1,0 +1,8 @@
+.env
+/cms/node_modules
+/viewer/node_modules
+/backend/venv312
+/backend/venv
+/backend/app/__pycache__
+/backend/.mypy_cache
+/backend/.pytest_cache

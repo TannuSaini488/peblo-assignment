@@ -1,0 +1,326 @@
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gap-2 {
+  gap: 8px;
+}
+
+.mb-8 {
+  margin-bottom: 32px;
+}
+
+.py-4 {
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-muted {
+  color: var(--text-muted);
+}
+
+.text-error {
+  color: var(--accent-error);
+}
+
+
+/* =========================================
+   TABLE
+   ========================================= */
+
+.table-container {
+  background-color: var(--bg-card);
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  overflow: hidden;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.data-table th,
+.data-table td {
+  padding: 16px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.data-table th {
+  font-weight: 600;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.data-table tr:last-child td {
+  border-bottom: none;
+}
+
+.data-table tbody tr:hover {
+  background-color: var(--bg-hover);
+}
+
+
+/* =========================================
+   STATUS BADGES
+   ========================================= */
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-transform: capitalize;
+  white-space: nowrap;
+}
+
+.status-badge.published {
+  background-color: rgba(16, 185, 129, 0.1);
+  color: var(--accent-success);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.status-badge.draft {
+  background-color: rgba(245, 158, 11, 0.1);
+  color: var(--accent-warning);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+}
+
+
+/* =========================================
+   LINKS
+   ========================================= */
+
+.btn-link {
+  color: var(--accent-primary);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.btn-link:hover {
+  text-decoration: underline;
+}
+
+
+/* =========================================
+   LIST TOOLBAR
+   ========================================= */
+
+.list-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+
+/* =========================================
+   SEARCH
+   ========================================= */
+
+.list-search {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  width: 420px;
+  min-width: 280px;
+  height: 42px;
+
+  padding: 0 14px;
+
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+
+  box-sizing: border-box;
+}
+
+.list-search:focus-within {
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.15);
+}
+
+.list-search svg {
+  flex-shrink: 0;
+  color: var(--text-muted);
+}
+
+.list-search input {
+  flex: 1;
+
+  width: 100%;
+  min-width: 0;
+  height: 100%;
+
+  padding: 0;
+
+  border: none;
+  outline: none;
+
+  background: transparent;
+  color: var(--text-main);
+
+  font-family: inherit;
+  font-size: 14px;
+}
+
+.list-search input::placeholder {
+  color: var(--text-muted);
+  opacity: 1;
+}
+
+
+/* =========================================
+   FILTER DROPDOWNS
+   ========================================= */
+
+.list-toolbar select {
+  width: 160px;
+  min-width: 140px;
+  height: 42px;
+
+  padding: 0 12px;
+
+  background-color: var(--bg-card);
+  color: var(--text-main);
+
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+
+  font-family: inherit;
+  font-size: 14px;
+
+  outline: none;
+  cursor: pointer;
+
+  box-sizing: border-box;
+}
+
+.list-toolbar select:hover {
+  border-color: var(--accent-primary);
+}
+
+.list-toolbar select:focus {
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.15);
+}
+
+.list-toolbar select option {
+  background-color: var(--bg-card);
+  color: var(--text-main);
+}
+
+
+/* =========================================
+   PAGINATION
+   ========================================= */
+
+.pagination-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+
+  width: 100%;
+
+  margin-top: 20px;
+  padding: 4px 0;
+}
+
+.pagination-bar button {
+  min-width: 90px;
+  height: 38px;
+
+  padding: 0 16px;
+
+  border-radius: 7px;
+
+  font-family: inherit;
+  font-size: 14px;
+
+  cursor: pointer;
+}
+
+.pagination-bar button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.pagination-bar .text-muted {
+  min-width: 80px;
+  text-align: center;
+}
+
+
+/* =========================================
+   RESPONSIVE
+   ========================================= */
+
+@media (max-width: 900px) {
+  .list-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .list-search {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .list-toolbar select {
+    width: 100%;
+  }
+
+  .table-container {
+    overflow-x: auto;
+  }
+
+  .data-table {
+    min-width: 700px;
+  }
+}
+
+
+/* =========================================
+   SMALL SCREENS
+   ========================================= */
+
+@media (max-width: 600px) {
+  .mb-8 {
+    margin-bottom: 20px;
+  }
+
+  .data-table th,
+  .data-table td {
+    padding: 12px;
+  }
+
+  .pagination-bar {
+    gap: 10px;
+  }
+
+  .pagination-bar button {
+    min-width: 80px;
+    padding: 0 12px;
+  }
+}

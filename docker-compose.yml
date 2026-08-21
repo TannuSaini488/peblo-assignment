@@ -1,0 +1,79 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-peblo}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-peblo_dev}
+      POSTGRES_DB: ${POSTGRES_DB:-peblo_tv}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U peblo"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build: 
+      context: ./backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+      - storage_data:/app/storage
+      - ./seed_shows.json:/app/seed_shows.json:ro
+      - ./assests:/app/assests:ro
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://${POSTGRES_USER:-peblo}:${POSTGRES_PASSWORD:-peblo_dev}@db:5432/${POSTGRES_DB:-peblo_tv}
+      - JWT_SECRET=${JWT_SECRET:-change-me-in-production}
+      - STORAGE_BACKEND=local
+      - STORAGE_LOCAL_PATH=/app/storage
+      - CORS_ORIGINS=http://localhost:3000,http://localhost:3001
+      - DEFAULT_ADMIN_USERNAME=${DEFAULT_ADMIN_USERNAME:-admin}
+      - DEFAULT_ADMIN_PASSWORD=${DEFAULT_ADMIN_PASSWORD:-admin123}
+      - DEFAULT_EDITOR_USERNAME=${DEFAULT_EDITOR_USERNAME:-editor}
+      - DEFAULT_EDITOR_PASSWORD=${DEFAULT_EDITOR_PASSWORD:-editor123}
+    depends_on:
+      db:
+        condition: service_healthy
+    # Wait for DB to be fully ready, run migrations, seed, then start API
+    command: >
+      sh -c "alembic upgrade head && 
+             python -m app.seed && 
+             uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
+
+  cms:
+    build:
+      context: ./cms
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./cms:/app
+      - /app/node_modules
+    environment:
+      - VITE_API_URL=http://localhost:8000
+    depends_on:
+      - api
+
+  viewer:
+    build:
+      context: ./viewer
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./viewer:/app
+      - /app/node_modules
+    environment:
+      - VITE_API_URL=http://localhost:8000
+    depends_on:
+      - api
+
+volumes:
+  postgres_data:
+  storage_data:

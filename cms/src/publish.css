@@ -1,0 +1,68 @@
+/* Cards & Alerts */
+.max-w-4xl { max-width: 56rem; margin: 0 auto; }
+.card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 24px;
+}
+.card-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+.mt-4 { margin-top: 16px; }
+.mt-8 { margin-top: 32px; }
+
+.alert {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  border-radius: 8px;
+  font-weight: 500;
+}
+.alert-error {
+  background-color: rgba(239, 68, 68, 0.1);
+  color: var(--accent-error);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+.alert-success {
+  background-color: rgba(16, 185, 129, 0.1);
+  color: var(--accent-success);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.error-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.error-item {
+  background-color: var(--bg-dark);
+  padding: 16px;
+  border-radius: 6px;
+  border-left: 4px solid var(--accent-error);
+}
+.error-context {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+.error-message {
+  font-weight: 500;
+}
+
+.warning-list {
+  padding-left: 20px;
+  color: var(--accent-warning);
+}
+.warning-item {
+  margin-bottom: 8px;
+}
+
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
