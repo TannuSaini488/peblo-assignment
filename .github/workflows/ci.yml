@@ -8,26 +8,51 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
+  runs-on: ubuntu-latest
 
-      - name: Set up Python 3.12
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
+  services:
+    postgres:
+      image: postgres:16-alpine
+      env:
+        POSTGRES_USER: peblo
+        POSTGRES_PASSWORD: peblo_dev
+        POSTGRES_DB: peblo_tv
+      ports:
+        - 5432:5432
+      options: >-
+        --health-cmd="pg_isready -U peblo -d peblo_tv"
+        --health-interval=5s
+        --health-timeout=5s
+        --health-retries=5
 
-      - name: Install dependencies
-        run: |
-          cd backend
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-          pip install pytest httpx
+  steps:
+    - uses: actions/checkout@v4
 
-      - name: Run tests
-        run: |
-          cd backend
-          PYTHONPATH=. pytest tests/
+    - name: Set up Python 3.12
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.12"
+
+    - name: Install dependencies
+      run: |
+        cd backend
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install pytest httpx
+
+    - name: Run database migrations
+      env:
+        DATABASE_URL: postgresql+asyncpg://peblo:peblo_dev@localhost:5432/peblo_tv
+      run: |
+        cd backend
+        alembic upgrade head
+
+    - name: Run tests
+      env:
+        DATABASE_URL: postgresql+asyncpg://peblo:peblo_dev@localhost:5432/peblo_tv
+      run: |
+        cd backend
+        PYTHONPATH=. pytest tests/
 
   lint:
     runs-on: ubuntu-latest
